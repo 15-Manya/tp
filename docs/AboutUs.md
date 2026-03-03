@@ -7,10 +7,16 @@
 
 We are a team based in the [School of Computing, National University of Singapore](http://www.comp.nus.edu.sg).
 
-You can reach us at the email `seer[at]comp.nus.edu.sg`
+You can reach us at the email `e1459283@u.nus.edu`
 
 ## Project team
 
+### Anugrah Bagla
+
+<img src="images/baglaanugrah.png" width="200px">
+
+[[github](https://github.com/baglaanugrah)]
+* Role: Project Advisor
 ### Zhou Jinhao
 
 <img src="images/chulan142857.png" width="200px">
