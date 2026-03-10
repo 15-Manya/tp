@@ -300,30 +300,102 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+**Use Case: UC01 - Check-in a participant**
 
-**Use case: Delete a person**
+**System**: TeamEventPro
+**Actor**: Organizer
 
-**MSS**
+**MSS(Main Success Scenario):**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  Organizer requests to find participants using a keyword.
+2.  TeamEventPro shows a list of matching participants.
+3.  Organizer requests to check-in a specific participant from the list using their index.
+4.  TeamEventPro updates the attendance status of the participant to "checked-in" and shows a success message.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 2a. The list of matching participants is empty.
+    * 2a1. TeamEventPro shows a message indicating no participants were found.
 
-  Use case ends.
+      Use case ends.
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. TeamEventPro shows an error message indicating the index is invalid.
+       
+      3a2. Organizer enters a new check-in command with a valid index.
+      
+      Steps resume from step 4.
 
-      Use case resumes at step 2.
+**Use Case: UC02 - Assign a participant to a team**
+
+**System**: TeamEventPro
+**Actor**: Organizer
+
+**MSS(Main Success Scenario):**
+
+1.  Organizer requests to find participants using a keyword.
+2.  TeamEventPro shows a list of matching participants.
+3.  Organizer requests to assign a specific participant from the list to a team using their index and the team name.
+4.  TeamEventPro updates the participant's team affiliation and shows a success message.
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list of matching participants is empty.
+    * 2a1. TeamEventPro shows a message indicating no participants were found.
+
+      Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. TeamEventPro shows an error message indicating the index is invalid.
+       
+      3a2. Organizer enters a new team assignment command with a valid index.
+      
+      Steps resume from step 4.
+
+* 3b. The given team name format is invalid (e.g., contains special characters).
+
+    * 3b1. TeamEventPro shows an error message detailing the team name constraints.
+
+      3b2. Organizer enters a new team assignment command with a valid team name.
+
+      Steps resume from step 4.
+
+**Use Case: UC03 - Delete a participant**
+
+**System**: TeamEventPro
+**Actor**: Organizer
+
+**MSS(Main Success Scenario):**
+
+1.  Organizer requests to find participants using a keyword.
+2.  TeamEventPro shows a list of matching participants.
+3.  Organizer requests to delete a specific participant from the list using their index.
+4.  TeamEventPro deletes the participant and shows a success message.
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list of matching participants is empty.
+    * 2a1. TeamEventPro shows a message indicating no participants were found.
+
+      Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. TeamEventPro shows an error message indicating the index is invalid.
+       
+      3a2. Organizer enters a new new delete command with a valid index.
+      
+      Steps resume from step 4.
+
+       
 
 *{More to be added}*
 
