@@ -23,20 +23,27 @@ public class Person {
 
     // Data fields
     private final Address address;
-    private Attendance status;
+    private final Attendance status;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+        this(name, phone, email, address, tags, new Attendance());
+    }
+
+    /**
+     * Every field must be present and not null.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Attendance status) {
+        requireAllNonNull(name, phone, email, address, tags, status);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
-        this.status = new Attendance();
+        this.status = status;
     }
 
     public Name getName() {
@@ -100,7 +107,8 @@ public class Person {
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags);
+                && tags.equals(otherPerson.tags)
+                && status.equals(otherPerson.status);
     }
 
     @Override
