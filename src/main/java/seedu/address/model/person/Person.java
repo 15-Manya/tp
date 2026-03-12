@@ -26,18 +26,45 @@ public class Person {
     private final Address address;
     private final Optional<Team> team;
     private final Set<Tag> tags = new HashSet<>();
+    private final GitHub github;
+    private final RsvpStatus rsvpStatus;
 
     /**
-     * Every field must be present and not null.
+     * Constructor with default values for optional fields.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+        this(name, phone, email, address, Optional.empty(), tags, null, new RsvpStatus("pending"));
+    }
+
+    /**
+     * Constructor with team field.
      */
     public Person(Name name, Phone phone, Email email, Address address, Optional<Team> team, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, team, tags);
+        this(name, phone, email, address, team, tags, null, new RsvpStatus("pending"));
+    }
+
+    /**
+     * Constructor with optional github and explicit rsvpStatus.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+                  GitHub github, RsvpStatus rsvpStatus) {
+        this(name, phone, email, address, Optional.empty(), tags, github, rsvpStatus);
+    }
+
+    /**
+     * Full constructor with all fields.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Optional<Team> team,
+                  Set<Tag> tags, GitHub github, RsvpStatus rsvpStatus) {
+        requireAllNonNull(name, phone, email, address, team, tags, rsvpStatus);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.team = team;
         this.tags.addAll(tags);
+        this.github = github;
+        this.rsvpStatus = rsvpStatus;
     }
 
     public Name getName() {
@@ -69,6 +96,14 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    public Optional<GitHub> getGitHub() {
+        return Optional.ofNullable(github);
+    }
+
+    public RsvpStatus getRsvpStatus() {
+        return rsvpStatus;
     }
 
     /**
@@ -105,13 +140,15 @@ public class Person {
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
                 && team.equals(otherPerson.team)
-                && tags.equals(otherPerson.tags);
+                && tags.equals(otherPerson.tags)
+                && Objects.equals(github, otherPerson.github)
+                && rsvpStatus.equals(otherPerson.rsvpStatus);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, team, tags);
+        return Objects.hash(name, phone, email, address, team, tags, github, rsvpStatus);
     }
 
     @Override
@@ -123,6 +160,8 @@ public class Person {
                 .add("address", address)
                 .add("team", team.orElse(null))
                 .add("tags", tags)
+                .add("github", github)
+                .add("rsvpStatus", rsvpStatus)
                 .toString();
     }
 
