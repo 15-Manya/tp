@@ -5,9 +5,11 @@ import java.util.Set;
 
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.GitHub;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.RsvpStatus;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -20,12 +22,15 @@ public class PersonBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_RSVP = "pending";
 
     private Name name;
     private Phone phone;
     private Email email;
     private Address address;
     private Set<Tag> tags;
+    private GitHub github;
+    private RsvpStatus rsvpStatus;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -36,6 +41,8 @@ public class PersonBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
+        github = null;
+        rsvpStatus = new RsvpStatus(DEFAULT_RSVP);
     }
 
     /**
@@ -47,6 +54,8 @@ public class PersonBuilder {
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
         tags = new HashSet<>(personToCopy.getTags());
+        github = personToCopy.getGitHub().orElse(null);
+        rsvpStatus = personToCopy.getRsvpStatus();
     }
 
     /**
@@ -86,6 +95,23 @@ public class PersonBuilder {
      */
     public PersonBuilder withEmail(String email) {
         this.email = new Email(email);
+        return this;
+    }
+
+    /**
+     * Sets the {@code GitHub} of the {@code Person} that we are building.
+     * Pass {@code null} to leave it unset.
+     */
+    public PersonBuilder withGitHub(String github) {
+        this.github = (github == null) ? null : new GitHub(github);
+        return this;
+    }
+
+    /**
+     * Sets the {@code RsvpStatus} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRsvpStatus(String rsvpStatus) {
+        this.rsvpStatus = new RsvpStatus(rsvpStatus);
         return this;
     }
 
