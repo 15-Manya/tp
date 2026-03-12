@@ -23,6 +23,7 @@ public class Person {
 
     // Data fields
     private final Address address;
+    private Attendance status;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
@@ -35,6 +36,7 @@ public class Person {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.status = new Attendance();
     }
 
     public Name getName() {
@@ -51,6 +53,10 @@ public class Person {
 
     public Address getAddress() {
         return address;
+    }
+
+    public Attendance getCheckInStatus() {
+        return status;
     }
 
     /**
@@ -100,7 +106,7 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, tags, status);
     }
 
     @Override
@@ -111,6 +117,7 @@ public class Person {
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("status", status)
                 .toString();
     }
 
