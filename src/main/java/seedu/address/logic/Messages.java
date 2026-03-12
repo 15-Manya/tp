@@ -45,6 +45,10 @@ public class Messages {
                 .append(person.getAddress())
                 .append("; Team: ")
                 .append(person.getTeam().map(team -> team.toString()).orElse("No team"))
+                .append("; GitHub: ")
+                .append(person.getGitHub().map(github -> github.toString()).orElse("No GitHub"))
+                .append("; RSVP: ")
+                .append(person.getRsvpStatus())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
         return builder.toString();
