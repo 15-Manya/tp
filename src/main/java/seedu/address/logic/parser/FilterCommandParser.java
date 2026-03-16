@@ -46,7 +46,8 @@ public class FilterCommandParser implements Parser<FilterCommand> {
             PREFIX_ADDRESS, PREFIX_GITHUB, PREFIX_RSVP, PREFIX_TAG);
 
         //check for multiple prefixes
-        if (argMultimap.countPrefixes(PREFIX_RSVP, PREFIX_TAG, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_GITHUB) > 1) {
+        if (argMultimap.countPrefixes(PREFIX_RSVP, PREFIX_TAG, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
+            PREFIX_GITHUB) > 1) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
         }
 
