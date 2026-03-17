@@ -38,13 +38,44 @@ public class FilterCommandParser implements Parser<FilterCommand> {
         //checks if there is any input after filter
         String trimmedArgs = args.trim();
         if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
         }
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
             PREFIX_ADDRESS, PREFIX_GITHUB, PREFIX_RSVP, PREFIX_TAG);
 
+        isValidFormat(argMultimap);
+
+        PersonMatchesFilterPredicate predicate = buildPredicate(argMultimap);
+        return new FilterCommand(predicate);
+    }
+
+    /**
+     * Checks if any of the prefixes given in {@code prefixes} are present in the argument multimap
+     */
+    private boolean arePrefixesPresent(ArgumentMultimap argMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).anyMatch(prefix -> argMultimap.getValue(prefix).isPresent());
+    }
+
+    /**
+     * Builds a {@code PersonMatchesFilterPredicate} from the argument multimap
+     */
+    private PersonMatchesFilterPredicate buildPredicate(ArgumentMultimap argMultimap) throws ParseException {
+        Optional<RsvpStatus> rsvpStatus = Optional.empty();
+        Set<Tag> tags = Set.of();
+
+        if (argMultimap.getValue(PREFIX_RSVP).isPresent()) {
+            rsvpStatus = Optional.of(ParserUtil.parseRsvpStatus(argMultimap.getValue(PREFIX_RSVP).get()));
+        } else if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
+            tags = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+        } else {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+        }
+
+        return new PersonMatchesFilterPredicate(rsvpStatus, tags);
+    }
+
+    private boolean isValidFormat(ArgumentMultimap argMultimap) throws ParseException {
         //check for multiple prefixes
         if (argMultimap.countPrefixes(PREFIX_RSVP, PREFIX_TAG, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
             PREFIX_GITHUB) > 1) {
@@ -58,24 +89,6 @@ public class FilterCommandParser implements Parser<FilterCommand> {
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_RSVP, PREFIX_TAG);
 
-        //parses the rsvp status or tags
-        Optional<RsvpStatus> rsvpStatus = Optional.empty();
-        Set<Tag> tags = Set.of();
-
-        if (argMultimap.getValue(PREFIX_RSVP).isPresent()) {
-            rsvpStatus = Optional.of(ParserUtil.parseRsvpStatus(argMultimap.getValue(PREFIX_RSVP).get()));
-        } else if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
-            tags = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        } else {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
-        }
-        return new FilterCommand(new PersonMatchesFilterPredicate(rsvpStatus, tags));
-    }
-
-    /**
-     * Checks if any of the prefixes given in {@code prefixes} are present in the argument multimap
-     */
-    private boolean arePrefixesPresent(ArgumentMultimap argMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).anyMatch(prefix -> argMultimap.getValue(prefix).isPresent());
+        return true;
     }
 }
