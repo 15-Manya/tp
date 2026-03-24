@@ -74,7 +74,7 @@ This MVP focuses on the core workflow of tracking participants from registration
 3. Copy the file to the folder you want to use as the _home folder_ for TeamEventPro.
 
 4. Open a command terminal, `cd` into the folder containing the jar file, and run `java -jar addressbook.jar`.<br>
-   A GUI similar to the one below should appear in a few seconds.<br>
+   A GUI similar to the below should appear in a few seconds. <br>
    ![Ui](images/Ui.png)
 
 5. Type commands in the command box and press Enter to execute them. For example, typing **`help`** and pressing Enter opens the help window.<br>
