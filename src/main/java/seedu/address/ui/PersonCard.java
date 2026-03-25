@@ -86,7 +86,7 @@ public class PersonCard extends UiPart<Region> {
         }
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(createHighlightedTagLabel(tag.tagName)));
+            .forEach(tag -> tags.getChildren().add(createTagLabel(tag.tagName)));
 
         if (person.getGitHub().isPresent()) {
             setHighlightedLabelText(github, "GitHub: " + person.getGitHub().get().value);
@@ -96,18 +96,21 @@ public class PersonCard extends UiPart<Region> {
         }
         setHighlightedLabelText(rsvpStatus, "RSVP: " + person.getRsvpStatus().value);
         if (person.getCheckInStatus().getStatus()) {
-            setHighlightedLabelText(checkInStatus, "Checked-In");
+            setStatusLabelText("Checked-In");
             checkInStatus.getStyleClass().add("checked-in");
         } else {
-            setHighlightedLabelText(checkInStatus, "Not Checked-In");
+            setStatusLabelText("Not Checked-In");
             checkInStatus.getStyleClass().add("not-checked-in");
         }
 
     }
 
-    private Label createHighlightedTagLabel(String value) {
+    private Label createTagLabel(String value) {
         Label label = new Label();
-        setHighlightedLabelText(label, value);
+        label.setText(value);
+        if (containsAnyKeyword(value)) {
+            label.getStyleClass().add("tag-highlight-match");
+        }
         return label;
     }
 
@@ -115,6 +118,12 @@ public class PersonCard extends UiPart<Region> {
         label.setText("");
         label.setGraphic(createHighlightedTextFlow(value));
         label.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+    }
+
+    private void setStatusLabelText(String value) {
+        checkInStatus.setGraphic(null);
+        checkInStatus.setContentDisplay(ContentDisplay.TEXT_ONLY);
+        checkInStatus.setText(value);
     }
 
     private TextFlow createHighlightedTextFlow(String value) {
@@ -155,5 +164,10 @@ public class PersonCard extends UiPart<Region> {
             }
             startIndex = text.indexOf(keyword, startIndex + 1);
         }
+    }
+
+    private boolean containsAnyKeyword(String value) {
+        String lowerCasedValue = value.toLowerCase(Locale.ROOT);
+        return highlightKeywords.stream().anyMatch(lowerCasedValue::contains);
     }
 }
