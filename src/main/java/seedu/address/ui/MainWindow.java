@@ -34,6 +34,7 @@ public class MainWindow extends UiPart<Stage> {
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
+    private EventListPanel eventListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
     private StatisticsPanel statisticsPanel;
@@ -52,6 +53,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane statusbarPlaceholder;
+
+    @FXML
+    private StackPane eventListPanelPlaceholder;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -116,6 +120,9 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
+        eventListPanel = new EventListPanel(logic.getFilteredEventList());
+        eventListPanelPlaceholder.getChildren().add(eventListPanel.getRoot());
+
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
@@ -125,7 +132,22 @@ public class MainWindow extends UiPart<Stage> {
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
-        statisticsPanel = new StatisticsPanel();
+        updateModeView();
+    }
+
+    private void updateModeView() {
+        boolean inParticipantsMode = logic.isInEventParticipantsMode();
+
+        personListPanelPlaceholder.setVisible(inParticipantsMode);
+        personListPanelPlaceholder.setManaged(inParticipantsMode);
+
+        eventListPanelPlaceholder.setVisible(!inParticipantsMode);
+        eventListPanelPlaceholder.setManaged(!inParticipantsMode);
+
+        // Person list data backing changes when switching events.
+        if (personListPanel != null) {
+            personListPanel.setPersonList(logic.getFilteredPersonList());
+        }
     }
 
     /**
@@ -197,6 +219,8 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
+
+            updateModeView();
 
             if (commandResult.isShowHelp()) {
                 handleHelp();
