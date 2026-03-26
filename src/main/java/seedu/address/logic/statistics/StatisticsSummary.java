@@ -18,6 +18,9 @@ public class StatisticsSummary {
     private final int teamCount;
     private final Map<String, Integer> tagCounts;
 
+    /**
+     * Creates an immutable statistics summary with precomputed counts.
+     */
     public StatisticsSummary(int totalCount, int checkedInCount,
                              int rsvpYesCount, int rsvpNoCount, int rsvpPendingCount,
                              int teamCount,
@@ -89,6 +92,9 @@ public class StatisticsSummary {
         return toPercentage(count, totalCount);
     }
 
+    /**
+     * Formats this summary for display in the statistics panel.
+     */
     public String formatForDisplay() {
         StringBuilder sb = new StringBuilder();
         appendSectionHeader(sb, "Event Summary");

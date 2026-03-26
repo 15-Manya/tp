@@ -58,8 +58,7 @@ public class StatisticsCalculator {
                         .thenComparing(Map.Entry::getKey))
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (left, right) -> left,
+                        Map.Entry::getValue, (left, right) -> left,
                         LinkedHashMap::new
                 ));
 
