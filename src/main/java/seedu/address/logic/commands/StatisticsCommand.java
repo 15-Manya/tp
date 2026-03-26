@@ -3,6 +3,8 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.statistics.StatisticsCalculator;
+import seedu.address.logic.statistics.StatisticsSummary;
 import seedu.address.model.Model;
 
 /**
@@ -21,6 +23,9 @@ public class StatisticsCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        StatisticsCalculator calculator = new StatisticsCalculator();
+        StatisticsSummary summary = calculator.calculate(model.getAddressBook().getPersonList());
+        String feedback = summary.formatForDisplay();
         return new CommandResult(MESSAGE_SUCCESS, false, false, true);
     }
 

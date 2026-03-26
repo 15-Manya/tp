@@ -16,6 +16,8 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.statistics.StatisticsCalculator;
+import seedu.address.logic.statistics.StatisticsSummary;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -168,6 +170,9 @@ public class MainWindow extends UiPart<Stage> {
 
     /** Shows the current statistics summary. */
     private void handleShowStatistics() {
+        StatisticsCalculator calculator = new StatisticsCalculator();
+        StatisticsSummary summary = calculator.calculate(logic.getAddressBook().getPersonList());
+        statisticsPanel.update(summary);
         personListPanelPlaceholder.getChildren().clear();
         personListPanelPlaceholder.getChildren().add(statisticsPanel.getRoot());
     }
