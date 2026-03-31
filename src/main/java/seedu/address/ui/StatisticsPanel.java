@@ -3,8 +3,14 @@ package seedu.address.ui;
 import static java.util.Objects.requireNonNull;
 
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
@@ -41,6 +47,12 @@ public class StatisticsPanel extends UiPart<Region> {
     @FXML
     private VBox checkinLegendBox;
 
+    @FXML
+    private HBox tagChartPlaceholder;
+
+    @FXML
+    private VBox tagLegendBox;
+
     public StatisticsPanel() {
         super(FXML);
     }
@@ -62,15 +74,8 @@ public class StatisticsPanel extends UiPart<Region> {
 
         updateRsvpChart(summary);
         updateCheckinChart(summary);
-
-        if (summary.getTagCounts().isEmpty()) {
-            tagDistributionText.setText("No tags found.");
-        } else {
-            StringBuilder tagsBuilder = new StringBuilder();
-            summary.getTagCounts().forEach((tag, count) ->
-                    tagsBuilder.append(formatMetric(tag, count, summary.getTagPercentage(tag))));
-            tagDistributionText.setText(tagsBuilder.toString());
-        }
+        updateTagChart(summary);
+        updateTagLegend(summary);
     }
 
     private String formatMetric(String label, int count, double percentage) {
@@ -107,6 +112,76 @@ public class StatisticsPanel extends UiPart<Region> {
                 String.format("Checked in (%.1f%%)", summary.getCheckedInPercentage()));
         addLegendRow(checkinLegendBox, "legend-no",
                 String.format("Not checked in (%.1f%%)", summary.getNotCheckedInPercentage()));
+    }
+
+    private void updateTagChart(StatisticsSummary summary) {
+        tagChartPlaceholder.getChildren().clear();
+
+        if (summary.getTagCounts().isEmpty()) {
+            tagDistributionText.setText("No tags found.");
+            return;
+        }
+
+        tagDistributionText.clear();
+
+        CategoryAxis yAxis = new CategoryAxis();
+        NumberAxis xAxis = new NumberAxis();
+        xAxis.setLabel("Count");
+        double maxCount = summary.getTagCounts().values().stream()
+                .mapToDouble(Integer::doubleValue)
+                .max()
+                .orElse(1.0);
+        xAxis.setAutoRanging(false);
+        xAxis.setLowerBound(0);
+        xAxis.setUpperBound(Math.max(1.0, maxCount * 1.1));
+        xAxis.setTickUnit(Math.max(1.0, maxCount / 4.0));
+
+        BarChart<Number, String> barChart = new BarChart<>(xAxis, yAxis);
+        barChart.setLegendVisible(false);
+        barChart.setCategoryGap(8);
+        barChart.setBarGap(4);
+        barChart.setAnimated(true);
+        barChart.setPadding(new Insets(0, 20, 0, 0));
+
+        BarChart.Series<Number, String> series = new BarChart.Series<>();
+        java.util.List<Double> finalValues = new java.util.ArrayList<>();
+        summary.getTagCounts().forEach((tag, count) -> {
+            series.getData().add(new BarChart.Data<>(0.0, tag));
+            finalValues.add(count.doubleValue());
+        });
+
+        barChart.getData().add(series);
+        barChart.setPrefHeight(200);
+        barChart.setHorizontalGridLinesVisible(false);
+        barChart.setVerticalGridLinesVisible(false);
+
+        xAxis.setTickLabelsVisible(false);
+        xAxis.setTickMarkVisible(false);
+        xAxis.setOpacity(0);
+
+        barChart.setHorizontalZeroLineVisible(false);
+        barChart.setVerticalZeroLineVisible(false);
+
+        tagChartPlaceholder.getChildren().add(barChart);
+
+        Platform.runLater(() -> {
+            // Assign stable colors.
+            int index = 0;
+            for (BarChart.Data<Number, String> data : series.getData()) {
+                Node bar = data.getNode();
+                if (bar != null) {
+                    bar.getStyleClass().add("tag-bar-" + (index % 5));
+                    index++;
+                }
+            }
+
+            // Trigger native BarChart animation from 0 -> final values.
+            Platform.runLater(() -> {
+                for (int i = 0; i < series.getData().size(); i++) {
+                    series.getData().get(i).setXValue(finalValues.get(i));
+                }
+            });
+        });
     }
 
     private void updateRsvpChart(StatisticsSummary summary) {
@@ -154,6 +229,27 @@ public class StatisticsPanel extends UiPart<Region> {
             String percentageLabel = String.format("%.0f%%", summary.getCheckedInPercentage());
             StackPane donut = createDonutContainer(checkinChart, percentageLabel);
             checkinChartPlaceholder.getChildren().add(donut);
+        }
+    }
+
+    private void updateTagLegend(StatisticsSummary summary) {
+        tagLegendBox.getChildren().clear();
+
+        if (summary.getTagCounts().isEmpty()) {
+            return;
+        }
+
+        int index = 0;
+        double total = summary.getTotalCount();
+        for (var entry : summary.getTagCounts().entrySet()) {
+            String tag = entry.getKey();
+            int count = entry.getValue();
+            double percentage = total == 0 ? 0 : (count * 100.0 / total);
+
+            String styleClass = "tag-bar-" + (index % 5);
+            String text = String.format("%s (%.1f%%)", tag, percentage);
+            addLegendRow(tagLegendBox, styleClass, text);
+            index++;
         }
     }
 

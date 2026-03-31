@@ -29,6 +29,8 @@
       <HBox fx:id="checkinChartPlaceholder" spacing="10" />
 
       <Label text="Other Statistics (Tag Distribution)" styleClass="stats-main-heading" />
+      <VBox fx:id="tagLegendBox" spacing="4" />
+      <HBox fx:id="tagChartPlaceholder" spacing="10" />
       <TextArea fx:id="tagDistributionText" editable="false" wrapText="true"
                 styleClass="result-display" VBox.vgrow="ALWAYS" />
     </VBox>

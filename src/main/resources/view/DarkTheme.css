@@ -426,6 +426,72 @@
     -fx-text-fill: white;
 }
 
+/* Tag bar chart styling */
+
+.bar-chart {
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+.bar-chart .chart-plot-background {
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+.bar-chart .axis .tick-label {
+    -fx-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.bar-chart .axis-label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.bar-chart .axis {
+    -fx-tick-label-fill: white;
+}
+
+.bar-chart .chart-horizontal-grid-lines,
+.bar-chart .chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
+
+.bar-chart .chart-bar {
+    -fx-background-insets: 0;
+    -fx-background-radius: 4;
+}
+
+.tag-bar-0 {
+    -fx-bar-fill: #4fc3f7;
+    -fx-fill: #4fc3f7;
+}
+
+.tag-bar-1 {
+    -fx-bar-fill: #b39ddb;
+    -fx-fill: #b39ddb;
+}
+
+.tag-bar-2 {
+    -fx-bar-fill: #1e3a8a;
+    -fx-fill: #1e3a8a;
+}
+
+.tag-bar-3 {
+    -fx-bar-fill: #80cbc4;
+    -fx-fill: #80cbc4;
+}
+
+.tag-bar-4 {
+    -fx-bar-fill: #ffb74d;
+    -fx-fill: #ffb74d;
+}
+
+.tag-percent-label {
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
 .donut-center-label {
     -fx-text-fill: white;
     -fx-font-size: 18px;
