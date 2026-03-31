@@ -8,10 +8,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import seedu.address.commons.util.CsvDataException;
+import seedu.address.commons.util.CsvImportResult;
+import seedu.address.commons.util.CsvRowError;
 import seedu.address.commons.util.CsvUtil;
-import seedu.address.commons.util.CsvUtil.CsvDataException;
-import seedu.address.commons.util.CsvUtil.CsvImportResult;
-import seedu.address.commons.util.CsvUtil.RowError;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -97,7 +97,7 @@ public class ImportCommand extends Command {
         if (invalidCount > 0) {
             feedback.append(" Invalid rows: ");
             List<String> snippets = new ArrayList<>();
-            List<RowError> errors = result.getRowErrors();
+            List<CsvRowError> errors = result.getRowErrors();
             for (int i = 0; i < errors.size() && i < MAX_ERROR_DETAILS; i++) {
                 snippets.add(errors.get(i).toString());
             }

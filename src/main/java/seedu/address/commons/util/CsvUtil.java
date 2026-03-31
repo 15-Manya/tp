@@ -9,7 +9,6 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -63,12 +62,12 @@ public final class CsvUtil {
             throw new CsvDataException("CSV file is empty.");
         }
 
-        List<String> headerValues = parseCsvRow(lines.get(0), 1);
+        List<String> headerValues = CsvParser.parseCsvRow(lines.get(0), 1);
         Map<String, Integer> headerToIndex = buildHeaderToIndex(headerValues);
         validateRequiredHeaders(headerToIndex);
 
         List<Person> validPersons = new ArrayList<>();
-        List<RowError> rowErrors = new ArrayList<>();
+        List<CsvRowError> rowErrors = new ArrayList<>();
 
         for (int i = 1; i < lines.size(); i++) {
             int lineNumber = i + 1;
@@ -78,11 +77,11 @@ public final class CsvUtil {
             }
 
             try {
-                List<String> rowValues = parseCsvRow(row, lineNumber);
+                List<String> rowValues = CsvParser.parseCsvRow(row, lineNumber);
                 Person person = toPerson(rowValues, headerToIndex);
                 validPersons.add(person);
             } catch (CsvDataException | ParseException e) {
-                rowErrors.add(new RowError(lineNumber, e.getMessage()));
+                rowErrors.add(new CsvRowError(lineNumber, e.getMessage()));
             }
         }
 
@@ -112,15 +111,15 @@ public final class CsvUtil {
                 .append(System.lineSeparator());
 
         for (Person person : persons) {
-            csv.append(escapeCsv(person.getName().fullName)).append(',')
-                    .append(escapeCsv(person.getPhone().value)).append(',')
-                    .append(escapeCsv(person.getEmail().value)).append(',')
-                    .append(escapeCsv(person.getAddress().value)).append(',')
-                    .append(escapeCsv(person.getTeam().map(Team::toString).orElse(""))).append(',')
-                    .append(escapeCsv(person.getGitHub().map(GitHub::toString).orElse(""))).append(',')
-                    .append(escapeCsv(person.getRsvpStatus().toString())).append(',')
-                    .append(escapeCsv(tagsToCsvField(person.getTags()))).append(',')
-                    .append(escapeCsv(person.getCheckInStatus().getStatus() ? "yes" : "no"))
+            csv.append(CsvParser.escapeCsv(person.getName().fullName)).append(',')
+                    .append(CsvParser.escapeCsv(person.getPhone().value)).append(',')
+                    .append(CsvParser.escapeCsv(person.getEmail().value)).append(',')
+                    .append(CsvParser.escapeCsv(person.getAddress().value)).append(',')
+                    .append(CsvParser.escapeCsv(person.getTeam().map(Team::toString).orElse(""))).append(',')
+                    .append(CsvParser.escapeCsv(person.getGitHub().map(GitHub::toString).orElse(""))).append(',')
+                    .append(CsvParser.escapeCsv(person.getRsvpStatus().toString())).append(',')
+                    .append(CsvParser.escapeCsv(tagsToCsvField(person.getTags()))).append(',')
+                    .append(CsvParser.escapeCsv(person.getCheckInStatus().getStatus() ? "yes" : "no"))
                     .append(System.lineSeparator());
         }
 
@@ -198,7 +197,7 @@ public final class CsvUtil {
                 : ParserUtil.parseRsvpStatus(rsvpRaw);
 
         String tagsRaw = getValue(rowValues, headerToIndex, HEADER_TAGS);
-        Set<Tag> tags = parseTags(tagsRaw);
+        Set<Tag> tags = ParserUtil.parseDelimitedTags(tagsRaw, ";");
 
         String checkInRaw = getOptionalValue(rowValues, headerToIndex, HEADER_CHECKIN_STATUS, HEADER_STATUS);
         Attendance attendance = parseAttendance(checkInRaw);
@@ -234,37 +233,11 @@ public final class CsvUtil {
         return "";
     }
 
-    private static Attendance parseAttendance(String value) throws CsvDataException {
+    private static Attendance parseAttendance(String value) throws ParseException {
         if (value == null || value.isBlank()) {
             return new Attendance();
         }
-
-        String normalized = value.trim().toLowerCase();
-        if (normalized.equals("yes") || normalized.equals("checked-in") || normalized.equals("true")) {
-            return new Attendance(true);
-        }
-        if (normalized.equals("no") || normalized.equals("not checked-in") || normalized.equals("false")) {
-            return new Attendance(false);
-        }
-
-        throw new CsvDataException("Invalid checkinStatus value: " + value + ". Use yes/no.");
-    }
-
-    private static Set<Tag> parseTags(String tagsRaw) throws ParseException {
-        if (tagsRaw == null || tagsRaw.isBlank()) {
-            return Collections.emptySet();
-        }
-
-        List<String> tags = new ArrayList<>();
-        String[] split = tagsRaw.split(";");
-        for (String token : split) {
-            String trimmed = token.trim();
-            if (!trimmed.isEmpty()) {
-                tags.add(trimmed);
-            }
-        }
-
-        return ParserUtil.parseTags(tags);
+        return ParserUtil.parseAttendance(value);
     }
 
     private static String tagsToCsvField(Set<Tag> tags) {
@@ -272,105 +245,5 @@ public final class CsvUtil {
                 .map(tag -> tag.tagName)
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.joining(";"));
-    }
-
-    private static List<String> parseCsvRow(String row, int lineNumber) throws CsvDataException {
-        List<String> values = new ArrayList<>();
-        StringBuilder current = new StringBuilder();
-        boolean inQuotes = false;
-
-        for (int i = 0; i < row.length(); i++) {
-            char character = row.charAt(i);
-            if (character == '"') {
-                if (inQuotes && i + 1 < row.length() && row.charAt(i + 1) == '"') {
-                    current.append('"');
-                    i++;
-                } else {
-                    inQuotes = !inQuotes;
-                }
-            } else if (character == ',' && !inQuotes) {
-                values.add(current.toString());
-                current.setLength(0);
-            } else {
-                current.append(character);
-            }
-        }
-
-        if (inQuotes) {
-            throw new CsvDataException("Unclosed quoted value at line " + lineNumber);
-        }
-
-        values.add(current.toString());
-        return values;
-    }
-
-    private static String escapeCsv(String value) {
-        String raw = value == null ? "" : value;
-        boolean shouldQuote = raw.contains(",") || raw.contains("\"") || raw.contains("\n") || raw.contains("\r");
-        String escaped = raw.replace("\"", "\"\"");
-        return shouldQuote ? '"' + escaped + '"' : escaped;
-    }
-
-    /**
-     * Row-level parse result for import CSV data.
-     */
-    public static class RowError {
-        public final int lineNumber;
-        public final String message;
-
-        /**
-         * Creates a row-level error with source line number and message.
-         */
-        public RowError(int lineNumber, String message) {
-            this.lineNumber = lineNumber;
-            this.message = message;
-        }
-
-        @Override
-        public String toString() {
-            return "line " + lineNumber + ": " + message;
-        }
-    }
-
-    /**
-     * Structured result of reading participants from a CSV file.
-     */
-    public static class CsvImportResult {
-        private final List<Person> persons;
-        private final List<RowError> rowErrors;
-
-        /**
-         * Creates an immutable import result containing valid persons and row errors.
-         */
-        public CsvImportResult(List<Person> persons, List<RowError> rowErrors) {
-            this.persons = List.copyOf(persons);
-            this.rowErrors = List.copyOf(rowErrors);
-        }
-
-        /**
-         * Returns valid participants parsed from the CSV file.
-         */
-        public List<Person> getPersons() {
-            return persons;
-        }
-
-        /**
-         * Returns row-level parsing errors captured during import.
-         */
-        public List<RowError> getRowErrors() {
-            return rowErrors;
-        }
-    }
-
-    /**
-     * Exception used for CSV-specific data validation failures.
-     */
-    public static class CsvDataException extends Exception {
-        /**
-         * Creates a CSV data validation exception with a user-facing message.
-         */
-        public CsvDataException(String message) {
-            super(message);
-        }
     }
 }
