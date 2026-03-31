@@ -132,6 +132,8 @@ public class MainWindow extends UiPart<Stage> {
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
+        statisticsPanel = new StatisticsPanel();
+
         updateModeView();
     }
 

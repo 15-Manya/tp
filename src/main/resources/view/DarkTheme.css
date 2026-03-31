@@ -373,6 +373,14 @@
     -fx-background-radius: 0;
 }
 
+.stats-scroll-pane {
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+.stats-scroll-pane > .viewport {
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
 #tags {
     -fx-hgap: 7;
     -fx-vgap: 3;
