@@ -3,6 +3,7 @@ package seedu.address.logic;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -95,5 +96,15 @@ public class LogicManager implements Logic {
     @Override
     public boolean isInEventParticipantsMode() {
         return model.isInEventParticipantsMode();
+    }
+
+    @Override
+    public Optional<Person> getPersonToView() {
+        return model.getPersonToView();
+    }
+
+    @Override
+    public void setPersonToView(Optional<Person> personToView) {
+        model.setPersonToView(personToView);
     }
 }

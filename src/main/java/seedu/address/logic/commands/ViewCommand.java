@@ -2,12 +2,15 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+import java.util.Optional;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-
+import seedu.address.model.person.Person;
 /**
  * Shows the details of a person identified by the index in the displayed person list.
  */
@@ -34,7 +37,14 @@ public class ViewCommand extends Command {
         if (!model.isInEventParticipantsMode()) {
             throw new CommandException(Messages.MESSAGE_ENTER_EVENT_FIRST);
         }
-        return new CommandResult("View command works.");
+
+        List<Person> personList = model.getFilteredPersonList();
+        if (targetIndex.getZeroBased() >= personList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        }
+        Person personToView = personList.get(targetIndex.getZeroBased());
+        model.setPersonToView(Optional.of(personToView));
+        return new CommandResult(String.format(MESSAGE_VIEW_PERSON_SUCCESS, Messages.format(personToView)));
     }
 
     @Override

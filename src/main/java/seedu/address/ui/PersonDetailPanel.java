@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
+import seedu.address.model.person.Person;
 
 /**
  * Panel for displaying detailed information of a {@code Person}.
@@ -31,6 +33,14 @@ public class PersonDetailPanel extends UiPart<Region> {
     public void setDetailText(String text) {
         requireNonNull(text);
         detailLabel.setText(text);
+    }
+
+    /**
+     * Updates this panel to display details of the given {@code person}.
+     */
+    public void setPerson(Person person) {
+        requireNonNull(person);
+        setDetailText(Messages.format(person));
     }
 
     @Override

@@ -15,11 +15,11 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
-import seedu.address.logic.commands.ViewCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.statistics.StatisticsCalculator;
 import seedu.address.logic.statistics.StatisticsSummary;
+import seedu.address.model.person.Person;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -41,7 +41,6 @@ public class MainWindow extends UiPart<Stage> {
     private HelpWindow helpWindow;
     private StatisticsPanel statisticsPanel;
     private PersonDetailPanel personDetailPanel;
-    private boolean showPersonDetailPane = false;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -153,7 +152,7 @@ public class MainWindow extends UiPart<Stage> {
 
     private void updateModeView() {
         boolean inParticipantsMode = logic.isInEventParticipantsMode();
-        boolean showDetail = inParticipantsMode && showPersonDetailPane;
+        boolean showDetail = inParticipantsMode && logic.getPersonToView().isPresent();
 
         personListPanelPlaceholder.setVisible(inParticipantsMode);
         personListPanelPlaceholder.setManaged(inParticipantsMode);
@@ -163,6 +162,8 @@ public class MainWindow extends UiPart<Stage> {
 
         if (showDetail) {
             eventListPanelPlaceholder.getChildren().setAll(personDetailPanel.getRoot());
+            Person person = logic.getPersonToView().get();
+            personDetailPanel.setPerson(person);
         } else {
             // Ensure we restore the event list when not showing person detail.
             // This matters when switching between participants mode and events mode.
@@ -256,7 +257,6 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
-            showPersonDetailPane = commandText.trim().startsWith(ViewCommand.COMMAND_WORD);
             updateModeView();
 
             if (commandResult.isShowHelp()) {
