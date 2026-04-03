@@ -29,6 +29,8 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
+            <MenuItem fx:id="skipOnboardingMenuItem" mnemonicParsing="false" onAction="#handleSkipOnboarding"
+                      text="Skip onboarding" />
           </Menu>
         </MenuBar>
 

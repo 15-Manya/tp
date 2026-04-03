@@ -13,4 +13,7 @@ public interface ReadOnlyUserPrefs {
 
     Path getAddressBookFilePath();
 
+    /** @return true if the user has finished or skipped the first-launch onboarding tutorial */
+    boolean isOnboardingCompleted();
+
 }
