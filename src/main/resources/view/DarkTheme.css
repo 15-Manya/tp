@@ -1,8 +1,28 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Palette reference (copy hex values from here; JavaFX does not use CSS vars)
+ * ---------------------------------------------------------------------------
+ *   app-bg          #0f1117   main window / chrome / list view background
+ *   border-subtle   #252830   pane borders, status bar, grid chrome
+ *   border-divider  #1e2130   split pane divider (matches card-border)
+ *   surface-raised  #111827   context menus, dialog header (slightly lifted)
+ *   surface-thumb   #3f4754   scrollbar thumb
+ *   list-row        #0f1117   all list rows (flat; no zebra)
+ *   list-selected   #1a1f2e   selected row
+ *   card-border     #1e2130   list card frame + row dividers
+ *   card-surface    #13161e   list card fill (subtle lift vs app-bg)
+ *   legacy-gray     #1d1d1d   table base, buttons (unchanged AB3)
+ *   command-field   #383838   command / result text areas (legacy)
+ * ---------------------------------------------------------------------------
+ */
+
+/* ========== Base (scene root + main VBox) ========== */
+.root,
 .background {
-    -fx-background-color: derive(#1d1d1d, 20%);
-    background-color: #383838; /* Used in the default.html file */
+    -fx-background-color: #0f1117;
 }
 
+/* ========== Typography — global labels ========== */
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
@@ -45,6 +65,7 @@
     -fx-font-family: "Segoe UI Semibold";
 }
 
+/* ========== Tab pane (headers hidden in AB3) ========== */
 .tab-pane {
     -fx-padding: 0 0 0 1;
 }
@@ -55,6 +76,7 @@
     -fx-max-height: 0;
 }
 
+/* ========== Table view (help / other tables) ========== */
 .table-view {
     -fx-base: #1d1d1d;
     -fx-control-inner-background: #1d1d1d;
@@ -92,42 +114,45 @@
     -fx-background-color: -fx-focus-color;
 }
 
+/* ========== Split pane (main two-column area) ========== */
 .split-pane:horizontal .split-pane-divider {
-    -fx-background-color: derive(#1d1d1d, 20%);
-    -fx-border-color: transparent transparent transparent #4d4d4d;
+    -fx-background-color: #0f1117;
+    -fx-border-color: transparent transparent transparent #1e2130;
 }
 
 .split-pane {
     -fx-border-radius: 1;
     -fx-border-width: 1;
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-border-color: #252830;
+    -fx-background-color: #0f1117;
 }
 
+/* ========== List view (all ListViews: participant + event) ========== */
 .list-view {
     -fx-background-insets: 0;
     -fx-padding: 0;
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: #0f1117;
 }
 
+/* ========== List cells — flat rows (same as app background; no zebra) ========== */
 .list-cell {
     -fx-label-padding: 0 0 0 0;
     -fx-graphic-text-gap : 0;
-    -fx-padding: 0 0 0 0;
+    /* Inset so #cardPane border reads as an inner frame; vertical gap separates cards */
+    -fx-padding: 6 10 6 10;
 }
 
-.list-cell:filled:even {
-    -fx-background-color: #3c3e3f;
-}
-
+.list-cell:filled:even,
 .list-cell:filled:odd {
-    -fx-background-color: #515658;
+    -fx-background-color: #0f1117;
 }
 
 .list-cell:filled:selected {
-    -fx-background-color: #424d5f;
+    -fx-background-color: #1a1f2e;
 }
 
 .list-cell:filled:selected #cardPane {
+    -fx-background-color: #1a1f2e;
     -fx-border-color: #3e7b91;
     -fx-border-width: 1;
 }
@@ -136,6 +161,7 @@
     -fx-text-fill: white;
 }
 
+/* ========== Person / event card text ========== */
 .cell_big_label {
     -fx-font-family: "Segoe UI Semibold";
     -fx-font-size: 16px;
@@ -148,6 +174,7 @@
     -fx-text-fill: #010504;
 }
 
+/* ========== Status chips (check-in on list cards) ========== */
 .status-label {
     -fx-padding: 3 5 3 5;
     -fx-background-radius: 5;
@@ -163,18 +190,19 @@
     -fx-background-color: #F44336;
 }
 
+/* ========== Layout chrome — command area, panes, status ========== */
 .stack-pane {
-     -fx-background-color: derive(#1d1d1d, 20%);
+     -fx-background-color: #0f1117;
 }
 
 .pane-with-border {
-     -fx-background-color: derive(#1d1d1d, 20%);
-     -fx-border-color: derive(#1d1d1d, 10%);
+     -fx-background-color: #0f1117;
+     -fx-border-color: #252830;
      -fx-border-top-width: 1px;
 }
 
 .status-bar {
-    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-background-color: #0f1117;
 }
 
 .result-display {
@@ -184,6 +212,7 @@
     -fx-text-fill: white;
 }
 
+/* Legacy: forces readable text on result label; do not remove without testing ResultDisplay */
 .result-display .label {
     -fx-text-fill: black !important;
 }
@@ -196,8 +225,8 @@
 }
 
 .status-bar-with-border {
-    -fx-background-color: derive(#1d1d1d, 30%);
-    -fx-border-color: derive(#1d1d1d, 25%);
+    -fx-background-color: #0f1117;
+    -fx-border-color: #252830;
     -fx-border-width: 1px;
 }
 
@@ -206,17 +235,17 @@
 }
 
 .grid-pane {
-    -fx-background-color: derive(#1d1d1d, 30%);
-    -fx-border-color: derive(#1d1d1d, 30%);
+    -fx-background-color: #0f1117;
+    -fx-border-color: #252830;
     -fx-border-width: 1px;
 }
 
 .grid-pane .stack-pane {
-    -fx-background-color: derive(#1d1d1d, 30%);
+    -fx-background-color: #0f1117;
 }
 
 .context-menu {
-    -fx-background-color: derive(#1d1d1d, 50%);
+    -fx-background-color: #111827;
 }
 
 .context-menu .label {
@@ -224,7 +253,7 @@
 }
 
 .menu-bar {
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: #0f1117;
 }
 
 .menu-bar .label {
@@ -287,12 +316,13 @@
     -fx-background-color: derive(-fx-focus-color, 30%);
 }
 
+/* ========== Dialogs ========== */
 .dialog-pane {
-    -fx-background-color: #1d1d1d;
+    -fx-background-color: #0f1117;
 }
 
 .dialog-pane > *.button-bar > *.container {
-    -fx-background-color: #1d1d1d;
+    -fx-background-color: #0f1117;
 }
 
 .dialog-pane > *.label.content {
@@ -302,7 +332,7 @@
 }
 
 .dialog-pane:header *.header-panel {
-    -fx-background-color: derive(#1d1d1d, 25%);
+    -fx-background-color: #111827;
 }
 
 .dialog-pane:header *.header-panel *.label {
@@ -312,12 +342,13 @@
     -fx-text-fill: white;
 }
 
+/* ========== Scroll bars ========== */
 .scroll-bar {
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: #0f1117;
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: derive(#1d1d1d, 50%);
+    -fx-background-color: #3f4754;
     -fx-background-insets: 3;
 }
 
@@ -338,9 +369,14 @@
     -fx-padding: 8 1 8 1;
 }
 
+/* ========== Node ids (FXML hooks) ========== */
 #cardPane {
-    -fx-background-color: transparent;
-    -fx-border-width: 0;
+    -fx-background-color: #13161e;
+    -fx-border-color: #1e2130;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-background-insets: 0;
 }
 
 #commandTypeLabel {
@@ -363,11 +399,7 @@
     -fx-effect: innershadow(gaussian, black, 10, 0, 0, 0);
 }
 
-#resultDisplay .content {
-    -fx-background-color: transparent, #383838, transparent, #383838;
-    -fx-background-radius: 0;
-}
-
+#resultDisplay .content,
 .result-display .content {
     -fx-background-color: transparent, #383838, transparent, #383838;
     -fx-background-radius: 0;

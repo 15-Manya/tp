@@ -4,8 +4,8 @@
 }
 
 .list-cell:empty {
-    /* Empty cells will not have alternating colours */
-    -fx-background: #383838;
+    /* Match main app background (see DarkTheme palette app-bg) */
+    -fx-background: #0f1117;
 }
 
 .tag-selector {
