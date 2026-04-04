@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import seedu.address.MainApp;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.ThemeMode;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 
@@ -55,7 +56,13 @@ public class UiManager implements Ui {
     }
 
     void showAlertDialogAndWait(Alert.AlertType type, String title, String headerText, String contentText) {
-        showAlertDialogAndWait(mainWindow.getPrimaryStage(), type, title, headerText, contentText);
+        showAlertDialogAndWait(
+                mainWindow.getPrimaryStage(),
+                type,
+                title,
+                headerText,
+                contentText,
+                logic.getThemeMode());
     }
 
     /**
@@ -63,9 +70,9 @@ public class UiManager implements Ui {
      * This method only returns after the user has closed the alert dialog.
      */
     private static void showAlertDialogAndWait(Stage owner, AlertType type, String title, String headerText,
-                                               String contentText) {
+                                               String contentText, ThemeMode themeMode) {
         final Alert alert = new Alert(type);
-        alert.getDialogPane().getStylesheets().add("view/DarkTheme.css");
+        ThemeStyles.applyTheme(alert.getDialogPane().getStylesheets(), themeMode);
         alert.initOwner(owner);
         alert.setTitle(title);
         alert.setHeaderText(headerText);
@@ -80,7 +87,8 @@ public class UiManager implements Ui {
      */
     private void showFatalErrorDialogAndShutdown(String title, Throwable e) {
         logger.severe(title + " " + e.getMessage() + StringUtil.getDetails(e));
-        showAlertDialogAndWait(Alert.AlertType.ERROR, title, e.getMessage(), e.toString());
+        showAlertDialogAndWait(mainWindow != null ? mainWindow.getPrimaryStage() : null,
+                Alert.AlertType.ERROR, title, e.getMessage(), e.toString(), logic.getThemeMode());
         Platform.exit();
         System.exit(1);
     }

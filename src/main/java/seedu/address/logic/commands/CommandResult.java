@@ -3,7 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
+import java.util.Optional;
 
+import seedu.address.commons.core.ThemeMode;
 import seedu.address.commons.util.ToStringBuilder;
 
 /**
@@ -25,16 +27,28 @@ public class CommandResult {
     /** The application should clear the person to view. */
     private final boolean clearPersonToView;
 
+    /** The application should switch to the specified theme mode. */
+    private final ThemeMode themeMode;
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
     public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean showStatistics,
-            boolean clearPersonToView) {
+            boolean clearPersonToView, ThemeMode themeMode) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
         this.showStatistics = showStatistics;
         this.clearPersonToView = clearPersonToView;
+        this.themeMode = themeMode;
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified fields.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean showStatistics,
+            boolean clearPersonToView) {
+        this(feedbackToUser, showHelp, exit, showStatistics, clearPersonToView, null);
     }
 
     /**
@@ -72,6 +86,10 @@ public class CommandResult {
         return clearPersonToView;
     }
 
+    public Optional<ThemeMode> getThemeMode() {
+        return Optional.ofNullable(themeMode);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -88,12 +106,13 @@ public class CommandResult {
                 && showHelp == otherCommandResult.showHelp
                 && exit == otherCommandResult.exit
                 && showStatistics == otherCommandResult.showStatistics
-                && clearPersonToView == otherCommandResult.clearPersonToView;
+                && clearPersonToView == otherCommandResult.clearPersonToView
+                && Objects.equals(themeMode, otherCommandResult.themeMode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit, showStatistics, clearPersonToView);
+        return Objects.hash(feedbackToUser, showHelp, exit, showStatistics, clearPersonToView, themeMode);
     }
 
     @Override
@@ -104,6 +123,7 @@ public class CommandResult {
                 .add("exit", exit)
                 .add("showStatistics", showStatistics)
                 .add("clearPersonToView", clearPersonToView)
+                .add("themeMode", themeMode)
                 .toString();
     }
 

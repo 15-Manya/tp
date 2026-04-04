@@ -4,6 +4,8 @@ import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.ThemeMode;
+
 public class UserPrefsTest {
 
     @Test
@@ -16,6 +18,18 @@ public class UserPrefsTest {
     public void setAddressBookFilePath_nullPath_throwsNullPointerException() {
         UserPrefs userPrefs = new UserPrefs();
         assertThrows(NullPointerException.class, () -> userPrefs.setAddressBookFilePath(null));
+    }
+
+    @Test
+    public void setThemeMode_nullThemeMode_throwsNullPointerException() {
+        UserPrefs userPrefs = new UserPrefs();
+        assertThrows(NullPointerException.class, () -> userPrefs.setThemeMode(null));
+    }
+
+    @Test
+    public void defaultThemeMode_isDark() {
+        UserPrefs userPrefs = new UserPrefs();
+        org.junit.jupiter.api.Assertions.assertEquals(ThemeMode.DARK, userPrefs.getThemeMode());
     }
 
 }

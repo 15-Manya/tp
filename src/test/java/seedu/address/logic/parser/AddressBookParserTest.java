@@ -25,6 +25,7 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SearchCommand;
 import seedu.address.logic.commands.StatisticsCommand;
+import seedu.address.logic.commands.SwitchModeCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
@@ -107,6 +108,17 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_statistics() throws Exception {
         assertTrue(parser.parseCommand(StatisticsCommand.COMMAND_WORD) instanceof StatisticsCommand);
+    }
+
+    @Test
+    public void parseCommand_switchMode() throws Exception {
+        assertEquals(new SwitchModeCommand(seedu.address.commons.core.ThemeMode.DARK),
+                parser.parseCommand(SwitchModeCommand.COMMAND_WORD + " dark"));
+        assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        SwitchModeCommand.MESSAGE_USAGE), () ->
+                        parser.parseCommand(SwitchModeCommand.COMMAND_WORD + " blue"));
+        assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () ->
+                parser.parseCommand("switchMode light"));
     }
 
     @Test

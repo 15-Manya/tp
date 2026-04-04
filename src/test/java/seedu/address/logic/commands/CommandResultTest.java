@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.ThemeMode;
+
 public class CommandResultTest {
     @Test
     public void equals() {
@@ -36,6 +38,9 @@ public class CommandResultTest {
 
         // different showStatistics value -> returns false
         assertFalse(commandResult.equals(new CommandResult("feedback", false, false, true)));
+
+        // different theme mode -> returns false
+        assertFalse(commandResult.equals(new CommandResult("feedback", false, false, false, true, ThemeMode.DARK)));
     }
 
     @Test
@@ -56,6 +61,10 @@ public class CommandResultTest {
 
         // different showStatistics value -> returns different hashcode
         assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", false, false, true).hashCode());
+
+        // different theme mode -> returns different hashcode
+        assertNotEquals(commandResult.hashCode(),
+                new CommandResult("feedback", false, false, false, true, ThemeMode.DARK).hashCode());
     }
 
     @Test
@@ -64,7 +73,8 @@ public class CommandResultTest {
         String expected = CommandResult.class.getCanonicalName() + "{feedbackToUser="
                 + commandResult.getFeedbackToUser() + ", showHelp=" + commandResult.isShowHelp()
                 + ", exit=" + commandResult.isExit() + ", showStatistics=" + commandResult.isShowStatistics()
-                + ", clearPersonToView=" + commandResult.canClearPersonToView() + "}";
+                + ", clearPersonToView=" + commandResult.canClearPersonToView()
+                + ", themeMode=" + commandResult.getThemeMode().orElse(null) + "}";
         assertEquals(expected, commandResult.toString());
     }
 }

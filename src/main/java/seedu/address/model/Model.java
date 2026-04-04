@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.commons.core.ThemeMode;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 
@@ -35,6 +36,20 @@ public interface Model {
      * Sets the user prefs' GUI settings.
      */
     void setGuiSettings(GuiSettings guiSettings);
+
+    /**
+     * Returns the user prefs' theme mode.
+     */
+    default ThemeMode getThemeMode() {
+        return ThemeMode.DARK;
+    }
+
+    /**
+     * Sets the user prefs' theme mode.
+     */
+    default void setThemeMode(ThemeMode themeMode) {
+        // Default is a no-op for test stubs.
+    }
 
     /**
      * Returns the user prefs' address book file path.

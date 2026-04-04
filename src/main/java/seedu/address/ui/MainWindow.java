@@ -18,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.ThemeMode;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.SearchCommand;
@@ -91,6 +92,7 @@ public class MainWindow extends UiPart<Stage> {
         setAccelerators();
 
         helpWindow = new HelpWindow();
+        applyTheme(logic.getThemeMode());
     }
 
     public Stage getPrimaryStage() {
@@ -290,6 +292,7 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             updateModeView();
+            commandResult.getThemeMode().ifPresent(this::applyTheme);
 
             if (commandResult.isShowHelp()) {
                 handleHelp();
@@ -311,5 +314,11 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
         }
+    }
+
+    private void applyTheme(ThemeMode themeMode) {
+        logic.setThemeMode(themeMode);
+        ThemeStyles.applyTheme(primaryStage.getScene().getStylesheets(), themeMode);
+        helpWindow.applyTheme(themeMode);
     }
 }

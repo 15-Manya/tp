@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.ThemeMode;
 import seedu.address.model.event.Event;
 import seedu.address.model.person.Person;
 
@@ -74,6 +75,17 @@ public class ModelManager implements Model {
     public void setGuiSettings(GuiSettings guiSettings) {
         requireNonNull(guiSettings);
         userPrefs.setGuiSettings(guiSettings);
+    }
+
+    @Override
+    public ThemeMode getThemeMode() {
+        return userPrefs.getThemeMode();
+    }
+
+    @Override
+    public void setThemeMode(ThemeMode themeMode) {
+        requireNonNull(themeMode);
+        userPrefs.setThemeMode(themeMode);
     }
 
     @Override
