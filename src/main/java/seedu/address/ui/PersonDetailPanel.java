@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Team;
@@ -34,7 +35,7 @@ public class PersonDetailPanel extends UiPart<Region> {
     @FXML
     private Label attendanceValue;
     @FXML
-    private Label teamKeyLabel;
+    private VBox teamRow;
     @FXML
     private Label teamValue;
     @FXML
@@ -45,7 +46,6 @@ public class PersonDetailPanel extends UiPart<Region> {
      */
     public PersonDetailPanel() {
         super(FXML);
-        ensureTeamChipStyles();
         setDetailText("Details coming soon. Use: view INDEX");
     }
 
@@ -75,8 +75,8 @@ public class PersonDetailPanel extends UiPart<Region> {
     }
 
     private void clearChipStyles() {
-        rsvpValue.getStyleClass().removeIf(style -> style.startsWith("rsvp-"));
-        attendanceValue.getStyleClass().removeIf(style -> style.startsWith("attendance-"));
+        attendanceValue.getStyleClass().removeIf(style -> style.startsWith("attendance-")
+                || style.equals("checked-in") || style.equals("not-checked-in"));
     }
 
     private void setBasicInfo(Person person) {
@@ -94,17 +94,15 @@ public class PersonDetailPanel extends UiPart<Region> {
     }
 
     private void setRsvpChip(Person person) {
-        String rsvp = person.getRsvpStatus().value;
-        rsvpValue.setText(rsvp);
-        rsvpValue.getStyleClass().removeIf(style -> style.startsWith("rsvp-"));
-        rsvpValue.getStyleClass().add(resolveRsvpStyleClass(rsvp));
+        rsvpValue.setText(person.getRsvpStatus().value);
     }
 
     private void setAttendanceChip(Person person) {
         boolean checkedIn = person.getCheckInStatus().getStatus();
-        attendanceValue.setText(checkedIn ? "Checked-In" : "Not Checked-In");
-        attendanceValue.getStyleClass().removeIf(style -> style.startsWith("attendance-"));
-        attendanceValue.getStyleClass().add(checkedIn ? "attendance-yes" : "attendance-no");
+        attendanceValue.setText(checkedIn ? "CHECKED-IN" : "NOT CHECKED-IN");
+        attendanceValue.getStyleClass().removeIf(style -> style.startsWith("attendance-")
+                || style.equals("checked-in") || style.equals("not-checked-in"));
+        attendanceValue.getStyleClass().add(checkedIn ? "checked-in" : "not-checked-in");
     }
 
     private void setTeamChip(Person person) {
@@ -129,21 +127,9 @@ public class PersonDetailPanel extends UiPart<Region> {
                 });
     }
 
-    private String resolveRsvpStyleClass(String rsvpStatus) {
-        if (rsvpStatus.equalsIgnoreCase("Yes")) {
-            return "rsvp-yes";
-        }
-        if (rsvpStatus.equalsIgnoreCase("No")) {
-            return "rsvp-no";
-        }
-        return "rsvp-pending";
-    }
-
     private void setTeamVisibility(boolean isVisible) {
-        teamKeyLabel.setVisible(isVisible);
-        teamKeyLabel.setManaged(isVisible);
-        teamValue.setVisible(isVisible);
-        teamValue.setManaged(isVisible);
+        teamRow.setVisible(isVisible);
+        teamRow.setManaged(isVisible);
     }
 
     private void clearDetailValues() {
@@ -154,15 +140,6 @@ public class PersonDetailPanel extends UiPart<Region> {
         rsvpValue.setText("");
         attendanceValue.setText("");
         teamValue.setText("");
-    }
-
-    private void ensureTeamChipStyles() {
-        if (!teamValue.getStyleClass().contains("detail-chip")) {
-            teamValue.getStyleClass().add("detail-chip");
-        }
-        if (!teamValue.getStyleClass().contains("team-pill")) {
-            teamValue.getStyleClass().add("team-pill");
-        }
     }
 
     @Override
