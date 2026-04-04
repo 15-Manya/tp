@@ -9,6 +9,7 @@ import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -16,12 +17,14 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import seedu.address.logic.statistics.StatisticsSummary;
 
@@ -63,7 +66,7 @@ public class StatisticsPanel extends UiPart<Region> {
     private HBox tagChartPlaceholder;
 
     @FXML
-    private VBox tagLegendBox;
+    private FlowPane tagLegendBox;
 
     public StatisticsPanel() {
         super(FXML);
@@ -134,6 +137,8 @@ public class StatisticsPanel extends UiPart<Region> {
 
         tagDistributionText.clear();
 
+        int tagCount = summary.getTagCounts().size();
+
         CategoryAxis yAxis = new CategoryAxis();
         NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel("Count");
@@ -148,8 +153,8 @@ public class StatisticsPanel extends UiPart<Region> {
 
         BarChart<Number, String> barChart = new BarChart<>(xAxis, yAxis);
         barChart.setLegendVisible(false);
-        barChart.setCategoryGap(8);
-        barChart.setBarGap(4);
+        barChart.setCategoryGap(10);
+        barChart.setBarGap(6);
         barChart.setAnimated(true);
         barChart.setPadding(new Insets(0, 20, 0, 0));
 
@@ -161,7 +166,9 @@ public class StatisticsPanel extends UiPart<Region> {
         });
 
         barChart.getData().add(series);
-        barChart.setPrefHeight(200);
+        // Taller chart when there are many tags so bars stay readable.
+        barChart.setPrefHeight(Math.max(260, tagCount * 36));
+        barChart.setMinHeight(Region.USE_PREF_SIZE);
         barChart.setHorizontalGridLinesVisible(false);
         barChart.setVerticalGridLinesVisible(false);
 
@@ -177,17 +184,16 @@ public class StatisticsPanel extends UiPart<Region> {
         tagChartPlaceholder.getChildren().add(barChart);
 
         Platform.runLater(() -> {
-            // Assign stable colors.
             int index = 0;
             for (BarChart.Data<Number, String> data : series.getData()) {
                 Node bar = data.getNode();
                 if (bar != null) {
-                    bar.getStyleClass().add("tag-bar-" + (index % 5));
+                    Color c = tagColorForIndex(index);
+                    bar.setStyle("-fx-bar-fill: " + toCssHex(c) + ";");
                     index++;
                 }
             }
 
-            // Trigger native BarChart animation from 0 -> final values.
             Platform.runLater(() -> {
                 for (int i = 0; i < series.getData().size(); i++) {
                     series.getData().get(i).setXValue(finalValues.get(i));
@@ -258,11 +264,38 @@ public class StatisticsPanel extends UiPart<Region> {
             int count = entry.getValue();
             double percentage = total == 0 ? 0 : (count * 100.0 / total);
 
-            String styleClass = "tag-bar-" + (index % 5);
             String text = String.format("%s (%.1f%%)", tag, percentage);
-            addLegendRow(tagLegendBox, styleClass, text);
+            addTagLegendChip(tagLegendBox, tagColorForIndex(index), text);
             index++;
         }
+    }
+
+    /**
+     * Distinct, evenly spaced hues so tag colors rarely repeat even with many tags.
+     */
+    private static Color tagColorForIndex(int index) {
+        double hue = (index * 137.508) % 360;
+        return Color.hsb(hue, 0.58, 0.90);
+    }
+
+    private static String toCssHex(Color color) {
+        return String.format("#%02x%02x%02x",
+                Math.round(color.getRed() * 255),
+                Math.round(color.getGreen() * 255),
+                Math.round(color.getBlue() * 255));
+    }
+
+    private void addTagLegendChip(FlowPane container, Color color, String text) {
+        HBox row = new HBox(8);
+        row.setAlignment(Pos.CENTER_LEFT);
+        Rectangle swatch = new Rectangle(14, 14);
+        swatch.setFill(color);
+        swatch.setArcWidth(3);
+        swatch.setArcHeight(3);
+        Label label = new Label(text);
+        label.getStyleClass().add("stats-legend-label");
+        row.getChildren().addAll(swatch, label);
+        container.getChildren().add(row);
     }
 
     private StackPane createDonutContainer(PieChart chart, String centerText) {
@@ -272,7 +305,7 @@ public class StatisticsPanel extends UiPart<Region> {
 
         double holeRadius = 50;
         Circle hole = new Circle(holeRadius);
-        hole.setFill(Color.web("#2b2b2b"));
+        hole.setFill(Color.web("#0f1117"));
 
         Label label = new Label(centerText);
         label.getStyleClass().add("donut-center-label");

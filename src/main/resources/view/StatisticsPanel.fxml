@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.VBox?>
@@ -57,7 +58,7 @@
 
       <Label text="Other Statistics (Skill Distribution)" styleClass="stats-main-heading" />
       <HBox fx:id="tagChartPlaceholder" spacing="10" HBox.hgrow="ALWAYS" fillHeight="true" />
-      <VBox fx:id="tagLegendBox" spacing="12" />
+      <FlowPane fx:id="tagLegendBox" hgap="16" vgap="10" prefWrapLength="900" />
       <TextArea fx:id="tagDistributionText" editable="false" wrapText="true"
                 styleClass="result-display" VBox.vgrow="ALWAYS" />
     </VBox>
