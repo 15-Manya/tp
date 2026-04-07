@@ -29,20 +29,20 @@ public class NameTest {
         assertFalse(Name.isValidName(" ")); // spaces only
 
         // invalid — disallowed special characters
-        assertFalse(Name.isValidName("^"));         // only non-alphanumeric characters
-        assertFalse(Name.isValidName("peter*"));    // asterisk not allowed
+        assertFalse(Name.isValidName("^")); // only non-alphanumeric characters
+        assertFalse(Name.isValidName("peter*")); // asterisk not allowed
         assertFalse(Name.isValidName("peter@tan")); // @ not allowed
-        assertFalse(Name.isValidName("peter#1"));   // # not allowed
+        assertFalse(Name.isValidName("peter#1")); // # not allowed
 
         // invalid — exceeds max length (101 characters)
         assertFalse(Name.isValidName("a".repeat(101)));
 
         // valid — standard names
-        assertTrue(Name.isValidName("peter jack"));                       // alphabets with space
-        assertTrue(Name.isValidName("12345"));                            // numbers only
-        assertTrue(Name.isValidName("peter the 2nd"));                    // alphanumeric
-        assertTrue(Name.isValidName("Capital Tan"));                      // capital letters
-        assertTrue(Name.isValidName("David Roger Jackson Ray Jr 2nd"));   // long name
+        assertTrue(Name.isValidName("peter jack")); // alphabets with space
+        assertTrue(Name.isValidName("12345")); // numbers only
+        assertTrue(Name.isValidName("peter the 2nd")); // alphanumeric
+        assertTrue(Name.isValidName("Capital Tan")); // capital letters
+        assertTrue(Name.isValidName("David Roger Jackson Ray Jr 2nd")); // long name
 
         // valid — exactly at max length (100 characters)
         assertTrue(Name.isValidName("a".repeat(100)));
