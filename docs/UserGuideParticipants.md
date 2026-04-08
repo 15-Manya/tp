@@ -95,15 +95,20 @@ Used to assign a participant to a team.
 `assign [INDEX] team/[TEAM NAME]`
 
 #### Example Usage
-`assign 2 team/Alpha`
+```
+assign 2 team/Alpha
+```
+![Command](images/assign-team/example.jpg)
 
 #### Successful Execution
-`Assigned ... to Team Alpha.`
+`Assigned [participant] to Team Alpha.`
+
+![Result](images/assign-team/result.png)
 
 #### Notes
 - Can only be used inside an event.
 - Index must be a positive integer.
-- Team names should be concise and valid according to app rules.
+- Team names must be alphanumeric and at most 15 characters.
 
 ### 2.2 Check-In command
 
