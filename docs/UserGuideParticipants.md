@@ -72,10 +72,15 @@ Used to delete a participant from the current event.
 `delete [INDEX]`
 
 #### Example Usage
-`delete 1`
+```text
+delete 1
+```
+![Command](images/delete-applicants/delete-command.png)
 
 #### Successful Execution
 `Deleted Participant: ...`
+
+![Result](images/delete-applicants/delete-result.png)
 
 #### Notes
 - Can only be used inside an event.
@@ -89,10 +94,15 @@ Used to clear all participants from the current event.
 `clear`
 
 #### Example Usage
-`clear`
+```text
+clear
+```
+![Command](images/clear/clear-command.png)
 
 #### Successful Execution
 `Address book has been cleared!`
+
+![Result](images/clear/clear-result.png)
 
 #### Notes
 - Can only be used inside an event.
@@ -110,15 +120,20 @@ Used to assign a participant to a team.
 `assign [INDEX] team/[TEAM NAME]`
 
 #### Example Usage
-`assign 2 team/Alpha`
+```
+assign 2 team/Alpha
+```
+![Command](images/assign-team/example.jpg)
 
 #### Successful Execution
-`Assigned ... to Team Alpha.`
+`Assigned [participant] to Team Alpha.`
+
+![Result](images/assign-team/result.png)
 
 #### Notes
 - Can only be used inside an event.
 - Index must be a positive integer.
-- Team names should be concise and valid according to app rules.
+- Team names must be alphanumeric and at most 15 characters.
 
 ### 2.2 Check-In command
 
@@ -302,10 +317,22 @@ Used to import participants from a CSV file into the current event.
 `import list`
 
 #### Example Usage
-`import data/participants.csv`
+```text
+import data/participants.csv
+```
+![Command](images/import-export/import-command.png)
+
+To list discoverable CSV files:
+
+```text
+import list
+```
+![Result](images/import-export/import-found.png)
 
 #### Successful Execution
 Participants from the CSV file are imported into the current event. Invalid rows and duplicates are skipped and reported.
+
+![Result](images/import-export/import-result.png)
 
 #### Notes
 - Can only be used inside an event.
@@ -321,10 +348,26 @@ Used to export participants from the current event to a CSV file.
 `export [FILE_PATH]`
 
 #### Example Usage
-`export data/exports/team-event.csv`
+```text
+export data/exports/team-event.csv
+```
+![Command](images/import-export/export-command.png)
+
+To export using the default path:
+
+```text
+export
+```
+![Command](images/import-export/export-default-command.png)
 
 #### Successful Execution
 `Exported ... participant(s) to ...`
+
+![Result](images/import-export/export-result.png)
+
+Default-path export result:
+
+![Result](images/import-export/export-default-result.png)
 
 #### Notes
 - Can only be used inside an event.
