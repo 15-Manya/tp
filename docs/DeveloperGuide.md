@@ -329,23 +329,24 @@ _{Explain here how the data archiving feature will be implemented}_
 
 ### Anugrah Bagla
 
-Project advisor. Thank you for guidance on scope, architecture, and quality of deliverables.
 
 ### Zhou Jinhao
 
-Thank you for contributions across the user interface and related user-facing behaviour.
 
 ### Debopam Roy
 
-Thank you for contributions to data modelling, persistence, and storage-related behaviour.
 
 ### Han Shangda
 
-Thank you for contributions to feature implementation and overall development effort.
 
 ### Manya Agarwal
 
-Team lead. Thank you for coordination, integration work, and keeping the project on track.
+Used Cursor (auto mode) for:
+* Designing and refining UI changes across the application.
+* Understanding the codebase architecture while implementing `statistics`, `filter`, and `view` commands.
+* Writing and improving manual test cases for `statistics`, `filter`, and `view` commands.
+* Debugging issues and performing error checking.
+* Reviewing code and documentation quality.
 
 --------------------------------------------------------------------------------------------------------------------
 
