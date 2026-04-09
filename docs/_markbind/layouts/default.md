@@ -63,8 +63,8 @@
 * [Developer Guide]({{ baseUrl }}/DeveloperGuide.html) :expanded:
   * [Acknowledgements]({{ baseUrl }}/DeveloperGuide.html#acknowledgements)
   * [Setting Up]({{ baseUrl }}/DeveloperGuide.html#setting-up-getting-started)
-  * [Design]({{ baseUrl }}/DeveloperGuide.html#design)
-    * [Implementation]({{ baseUrl }}/DeveloperGuide.html#implementation)
+    * [Design]({{ baseUrl }}/DeveloperGuide.html#design)
+  * [Implementation]({{ baseUrl }}/DeveloperGuide.html#implementation)
     * [Add Event Feature]({{ baseUrl }}/DeveloperGuide.html#add-event-feature)
     * [Add Participant Feature]({{ baseUrl }}/DeveloperGuide.html#add-participant-feature)
     * [Edit Participant Feature]({{ baseUrl }}/DeveloperGuide.html#edit-participant-feature)
