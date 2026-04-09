@@ -201,10 +201,22 @@ Used to import applicants from a CSV file into the current event.
 `import list`
 
 #### Example Usage
-`import data/participants.csv`
+```text
+import data/participants.csv
+```
+![Command](images/import-export/import-command.png)
+
+To list discoverable CSV files:
+
+```text
+import list
+```
+![Result](images/import-export/import-found.png)
 
 #### Successful Execution
 Applicants from the CSV file are imported into the current event. Invalid rows and duplicates are skipped and reported.
+
+![Result](images/import-export/import-result.png)
 
 #### Notes
 - Can only be used inside an event.
@@ -220,10 +232,26 @@ Used to export applicants from the current event to a CSV file.
 `export [FILE_PATH]`
 
 #### Example Usage
-`export data/exports/team-event.csv`
+```text
+export data/exports/team-event.csv
+```
+![Command](images/import-export/export-command.png)
+
+To export using the default path:
+
+```text
+export
+```
+![Command](images/import-export/export-default-command.png)
 
 #### Successful Execution
 `Exported ... participant(s) to ...`
+
+![Result](images/import-export/export-result.png)
+
+Default-path export result:
+
+![Result](images/import-export/export-default-result.png)
 
 #### Notes
 - Can only be used inside an event.
