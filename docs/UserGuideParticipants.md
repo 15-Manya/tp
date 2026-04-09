@@ -23,15 +23,19 @@ Used to add a participant to the currently entered event.
 
 #### Example Usage
 `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 tm/Development g/johndoe r/yes t/friends`
+![Command](images/add/command.png)
 
 #### Successful Execution
 `New applicant added: ...`
+![Command](images/add/result.png)
 
 #### Notes
 - Can only be used inside an event.
 - Name, phone, email, and address are required.
-- `RSVP_STATUS` must be `yes`, `no`, or `pending`.
-- Team names must be alphanumeric and at most 15 characters.
+- `NAME` can contain alphanumeric characters (including accented characters e.g. José, Tomáš), spaces, apostrophes (`'`), hyphens (`-`), and forward slashes (`/`) e.g. `O'Brian`, `s/o Kumar`. Names cannot exceed 100 characters.
+- `RSVP_STATUS` must be `yes`, `no`, or `pending` (case-insensitive). Defaults to `pending` if not provided.
+- `TEAM` must be alphanumeric and at most 15 characters.
+- Two participants are considered duplicates if they share the same name and either the same phone number or the same email. Duplicate participants cannot be added to the same event.
 
 ### 1.2 Edit Command
 
@@ -42,14 +46,23 @@ Used to edit the details of an existing participant in the current event.
 
 #### Example Usage
 `edit 1 p/91234567 e/johndoe@example.com`
+![Command](images/edit/command.png)
 
 #### Successful Execution
-`Edited Participant: ...`
+`Edited Applicant: ...`
+![Command](images/edit/result.png)
 
 #### Notes
 - Can only be used inside an event.
 - Index must be a positive integer.
 - At least one field to edit must be provided.
+- Existing values will be overwritten by the new values.
+- `NAME` follows the same constraints as the `add` command — alphanumeric characters (including accented), spaces, apostrophes, hyphens, and forward slashes. Cannot exceed 100 characters.
+- `RSVP_STATUS` must be `yes`, `no`, or `pending` (case-insensitive).
+- `TEAM` must be alphanumeric and at most 15 characters.
+- Clear all tags by typing `t/` with nothing after it.
+- Clear the team by typing `tm/` with nothing after it.
+- Editing a participant to match another participant's name and phone or email will be rejected as a duplicate.
 
 ### 1.3 Delete Command
 
@@ -59,10 +72,15 @@ Used to delete a participant from the current event.
 `delete [INDEX]`
 
 #### Example Usage
-`delete 1`
+```text
+delete 1
+```
+![Command](images/delete-applicants/delete-command.png)
 
 #### Successful Execution
 `Deleted Participant: ...`
+
+![Result](images/delete-applicants/delete-result.png)
 
 #### Notes
 - Can only be used inside an event.
@@ -76,10 +94,15 @@ Used to clear all participants from the current event.
 `clear`
 
 #### Example Usage
-`clear`
+```text
+clear
+```
+![Command](images/clear/clear-command.png)
 
 #### Successful Execution
 `Address book has been cleared!`
+
+![Result](images/clear/clear-result.png)
 
 #### Notes
 - Can only be used inside an event.
@@ -97,15 +120,20 @@ Used to assign a participant to a team.
 `assign [INDEX] team/[TEAM NAME]`
 
 #### Example Usage
-`assign 2 team/Alpha`
+```
+assign 2 team/Alpha
+```
+![Command](images/assign-team/example.jpg)
 
 #### Successful Execution
-`Assigned ... to Team Alpha.`
+`Assigned [participant] to Team Alpha.`
+
+![Result](images/assign-team/result.png)
 
 #### Notes
 - Can only be used inside an event.
 - Index must be a positive integer.
-- Team names should be concise and valid according to app rules.
+- Team names must be alphanumeric and at most 15 characters.
 
 ### 2.2 Check-In Command
 
@@ -289,10 +317,22 @@ Used to import participants from a CSV file into the current event.
 `import list`
 
 #### Example Usage
-`import data/participants.csv`
+```text
+import data/participants.csv
+```
+![Command](images/import-export/import-command.png)
+
+To list discoverable CSV files:
+
+```text
+import list
+```
+![Result](images/import-export/import-found.png)
 
 #### Successful Execution
 Participants from the CSV file are imported into the current event. Invalid rows and duplicates are skipped and reported.
+
+![Result](images/import-export/import-result.png)
 
 #### Notes
 - Can only be used inside an event.
@@ -308,10 +348,26 @@ Used to export participants from the current event to a CSV file.
 `export [FILE_PATH]`
 
 #### Example Usage
-`export data/exports/team-event.csv`
+```text
+export data/exports/team-event.csv
+```
+![Command](images/import-export/export-command.png)
+
+To export using the default path:
+
+```text
+export
+```
+![Command](images/import-export/export-default-command.png)
 
 #### Successful Execution
 `Exported ... participant(s) to ...`
+
+![Result](images/import-export/export-result.png)
+
+Default-path export result:
+
+![Result](images/import-export/export-default-result.png)
 
 #### Notes
 - Can only be used inside an event.
