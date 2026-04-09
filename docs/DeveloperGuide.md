@@ -558,6 +558,13 @@ Used Cursor and Codex for
 
 ### Zhou Jinhao
 
+Used Cursor (auto mode) for:
+* Implementing the `assign-team` feature.
+* Implementing `import` and `export` features.
+* Implementing the real-time search feature.
+* Debugging issues and performing error checking.
+* Reviewing code and documentation quality.
+
 
 ### Debopam Roy
 Used Claude (Claude Code) for:
