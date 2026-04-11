@@ -158,6 +158,7 @@ Read this once before using [Event Commands](#event-commands) or [Participant Co
 - Words in `UPPER_CASE` are parameters to be supplied by the user.
 - Items followed by `...` can be used multiple times.
 - For prefixed arguments, parameter order usually does not matter unless stated otherwise.
+- Tags that are enclosed in square brackets are optional.
 - Indexes refer to the numbers shown in the displayed list.
 - Dates should follow the format `YYYY-MM-DD`.
 
@@ -453,7 +454,7 @@ deleteevent 1
 Used to enter an event and switch into participant-management mode for that event.
 
 #### Format
-`enter event [INDEX]`
+`enter event INDEX`
 
 #### Example Usage
 ```
@@ -641,7 +642,7 @@ assign 2 team/Alpha
 Used to mark a participant as checked in.
 
 #### Format
-`checkin [INDEX]`
+`checkin INDEX`
 
 #### Example Usage
 ```
