@@ -397,7 +397,8 @@ addevent n/Tech Meetup 2026 d/2026-06-15 l/NUS Techno Edge desc/Annual tech netw
 - `NAME` must start with an alphanumeric character and can only contain alphanumeric characters and spaces. It must not be blank.
 - `DATE` must follow the format `YYYY-MM-DD` e.g. `2026-06-15`.
 - `LOCATION` and `DESCRIPTION` are optional.
-- Duplicate events with the same name are not allowed.
+- Event names are case-sensitive.
+- Duplicate-looking event names may still be valid because related sessions can happen at different locations or at different times on the same day.
 
 ---
 
@@ -932,3 +933,10 @@ Some operations do not currently support undo correctly. Examples include `check
 Once these commands are executed, there may be no built-in way to restore the previous state through an undo
 command. Users should therefore be careful when performing destructive or state-changing actions, especially
 when clearing participants or deleting events.
+
+## 3. Commands do not auto-clear after an error
+
+If a command fails, the command text may remain in the command box instead of clearing automatically.
+
+This means users may need to manually edit or remove the failed command before trying again. This is mainly a
+usability issue, but it can be slightly inconvenient when testing multiple command variations in a row.

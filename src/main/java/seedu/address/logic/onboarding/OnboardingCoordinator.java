@@ -243,7 +243,8 @@ public class OnboardingCoordinator {
         String team = tutorialTeamName != null && !tutorialTeamName.isBlank() ? tutorialTeamName : "your team";
         return "Team assigned: \"" + team + "\" for \"" + participantNameOrPlaceholder() + "\".\n\n"
                 + "Last step — Step " + currentStep.stepNumber() + "/" + TOTAL_STEPS + ":\n"
-                + instructionForCurrentStep(logic);
+                + instructionForCurrentStep(logic) + "\n"
+                + "If you wish to leave the event mode after executing this command, enter `leave event` ";
     }
 
     /**
