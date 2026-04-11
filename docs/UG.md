@@ -132,7 +132,7 @@ For macOS-specific setup guidance, follow the prescribed JDK instructions in the
 ## 3. First-time setup
 
 - On first launch, complete the onboarding tutorial.
-- Use the command box at the bottom of the app to run commands.
+- Use the command box at the top of the app to run commands.
 - Press Enter after each command.
 
 ---

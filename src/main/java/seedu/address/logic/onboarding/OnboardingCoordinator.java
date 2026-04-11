@@ -48,7 +48,7 @@ public class OnboardingCoordinator {
      */
     public String getWelcomeMessage(Logic logic) {
         return "Welcome! Thank you for using TeamEventPro. This tutorial will help you get familiar with the app by "
-                + "introducing you to some simple commands. If you are already familiar with the app, you can skip the"
+                + "introducing you to some simple commands. If you are already familiar with the app, you can skip the "
                 + "tutorial by clicking on the button in the Help menu." + "\n\n"
                 + currentStepReminder(logic);
     }
