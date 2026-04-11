@@ -686,6 +686,7 @@ Extensions:
 * **Prefix**: A field marker used in command input to indicate how a value should be interpreted by the parser (e.g. `n/` for name).
 * **Duplicate Participant**: A participant entry that the system considers identical to an existing participant according to its duplicate-detection rules.
 * **CSV (Comma-Separated Values)**: A plain-text file format used to store tabular data, where each line represents a row and commas separate values.
+* **Import/Export `FILE_PATH`**: For `import` and `export`, relative paths are resolved from the app's working directory (where the JAR is run), while absolute paths are supported on all mainstream OSes (e.g. `C:/...` or `C:\\...` on Windows, `/...` on macOS/Linux).
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Instructions for manual testing**

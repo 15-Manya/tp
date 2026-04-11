@@ -822,6 +822,12 @@ Before using `import`, ensure your CSV has the expected header format:
 `import [FILE_PATH]`
 `import list`
 
+#### Path Rules
+- Relative paths are resolved from the app's working folder (where the JAR is run).
+- Absolute paths are supported.
+- Windows absolute path examples: `C:/Users/Alex/tp/data/export/hacknight.csv` or `C:\\Users\\Alex\\tp\\data\\export\\hacknight.csv`
+- macOS absolute path example: `/Users/alex/tp/data/export/hacknight.csv`
+
 #### Example Usage
 ```text
 import data/export/hacknight.csv
@@ -834,6 +840,13 @@ To list discoverable CSV files:
 import list
 ```
 ![Result](images/import-export/import-found.png)
+
+Absolute path examples:
+
+```text
+import C:/Users/Alex/tp/data/export/hacknight.csv
+import /Users/alex/tp/data/export/hacknight.csv
+```
 
 #### Successful Execution
 Participants from the CSV file are imported into the current event. Invalid rows and duplicates are skipped and reported.
@@ -853,6 +866,12 @@ Used to export participants from the current event to a CSV file.
 #### Format
 `export [FILE_PATH]`
 
+#### Path Rules
+- Relative paths are resolved from the app's working folder (where the JAR is run).
+- Absolute paths are supported.
+- Windows absolute path examples: `C:/Users/Alex/tp/data/exports/hacknight.csv` or `C:\\Users\\Alex\\tp\\data\\exports\\hacknight.csv`
+- macOS absolute path example: `/Users/alex/tp/data/exports/hacknight.csv`
+
 #### Example Usage
 ```text
 export data/ForTestOnly.csv
@@ -865,6 +884,13 @@ To export using the default path:
 export
 ```
 ![Command](images/import-export/export-default-command.png)
+
+Absolute path examples:
+
+```text
+export C:/Users/Alex/tp/data/exports/hacknight.csv
+export /Users/alex/tp/data/exports/hacknight.csv
+```
 
 #### Successful Execution
 `Exported ... participant(s) to ...`

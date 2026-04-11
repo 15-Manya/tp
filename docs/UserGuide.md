@@ -211,6 +211,13 @@ Examples:
 
 Imports applicants from a CSV file into the currently entered event.
 
+How `FILE_PATH` is interpreted:
+
+- Relative paths are resolved from the app's working folder (the folder where you run the JAR).
+- Absolute paths are also supported.
+- On Windows, use either `C:/...` or `C:\\...` style absolute paths.
+- On macOS, use `/...` style absolute paths.
+
 Before using `import`, prepare your CSV with the exact expected structure:
 
 - Required header columns: `name,phone,email,address`
@@ -244,11 +251,20 @@ Jane Tan,91234567,jane@example.com,5 Sports Hub Ave,,,no,,false
 Example:
 
 - `import data/participants.csv`
+- `import C:/Users/Alex/tp/data/participants.csv` (Windows absolute path)
+- `import /Users/alex/tp/data/participants.csv` (macOS absolute path)
 - `import list`
 
 ### Exporting applicants to CSV : `export`
 
 Exports all applicants in the currently entered event to a CSV file.
+
+How `FILE_PATH` is interpreted:
+
+- Relative paths are resolved from the app's working folder (the folder where you run the JAR).
+- Absolute paths are also supported.
+- On Windows, use either `C:/...` or `C:\\...` style absolute paths.
+- On macOS, use `/...` style absolute paths.
 
 Format: `export [FILE_PATH]`
 
@@ -260,6 +276,8 @@ Examples:
 
 - `export`
 - `export data/exports/hacknight.csv`
+- `export C:/Users/Alex/tp/data/exports/hacknight.csv` (Windows absolute path)
+- `export /Users/alex/tp/data/exports/hacknight.csv` (macOS absolute path)
 
 ### Editing an applicant : `edit`
 
