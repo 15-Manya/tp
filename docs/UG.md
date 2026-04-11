@@ -572,7 +572,6 @@ Used to delete a participant from the current event.
 ```
 delete 1
 ```
-![Command](images/delete-applicants/delete-command.png)
 
 #### Successful Execution
 `Deleted Participant: ...`
@@ -595,7 +594,6 @@ Used to clear all participants from the current event.
 ```
 clear
 ```
-![Command](images/clear/clear-command.png)
 
 #### Successful Execution
 `Address book has been cleared!`
@@ -622,7 +620,6 @@ Used to assign a participant to a team.
 ```
 assign 2 team/Alpha
 ```
-![Command](images/assign-team/example.jpg)
 
 #### Successful Execution
 `Assigned [participant] to Team Alpha.`
@@ -832,7 +829,6 @@ Before using `import`, ensure your CSV has the expected header format:
 ```text
 import data/export/hacknight.csv
 ```
-![Command](images/import-export/import-command.png)
 
 To list discoverable CSV files:
 
@@ -877,14 +873,12 @@ Used to export participants from the current event to a CSV file.
 ```text
 export data/ForTestOnly.csv
 ```
-![Command](images/import-export/export-command.png)
 
 To export using the default path:
 
 ```text
 export
 ```
-![Command](images/import-export/export-default-command.png)
 
 Absolute path examples:
 
