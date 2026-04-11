@@ -35,6 +35,7 @@ pageNav: 0
   - [Import : `import`](#cmd-import)
   - [Export : `export`](#cmd-export)
   - [Leave Event : `leave event`](#cmd-leave-event)
+- [Known Issues](#known-issues)
 
 ---
 
@@ -169,6 +170,15 @@ Read this once before using [Event Commands](#event-commands) or [Participant Co
 TeamEventPro operates in two modes:
 - **Outside an event**: event-level commands such as `addevent`, `editevent`, `deleteevent`, `enter event`, `list`, `search`.
 - **Inside an event**: participant-level commands such as `add`, `edit`, `delete`, `assign`, `filter`, `checkin`, `view`, `statistics`, `list`, `search`, `leave event`.
+
+### RSVP vs Check-In
+
+TeamEventPro tracks two different participant statuses:
+
+- **RSVP status** shows whether a participant said they will attend: `yes`, `no`, or `pending`.
+- **Check-in status** shows whether a participant has actually arrived at the event: `yes` or `no`.
+
+These two statuses are different. For example, a participant may have RSVP = `yes` but Check-in = `no` if they said they would attend but have not arrived yet.
 
 Most commands follow one of these patterns:
 - `COMMAND [INDEX] [PREFIX/VALUE]...`
@@ -639,7 +649,9 @@ assign 2 team/Alpha
 ### 2.2 Check-In Command
 <a id="cmd-checkin"></a>
 
-Used to mark a participant as checked in.
+Used to mark that a participant has physically arrived at the event.
+
+This is different from RSVP status, which records whether the participant said they would attend.
 
 #### Format
 `checkin INDEX`
@@ -904,3 +916,24 @@ leave event
 - Can only be used inside an event.
 - Ensure that there is no space after `event`.
 
+---
+
+# Known Issues
+
+## 1. Participant command errors outside an event may show format errors first
+
+If a participant-related command such as `add`, `edit`, `delete`, `assign`, `checkin`, or `filter` is entered
+outside an event with an invalid format, the app may first show a command format error instead of telling the
+user to enter an event first.
+
+This happens because the command input is parsed before the app checks whether the user is currently inside an
+event. As a result, malformed input can fail at the parser stage before the mode-related validation is reached.
+
+## 2. Undo is not fully supported for some data-changing operations
+
+Some operations do not currently support undo correctly. Examples include `checkin`, `clear`, `delete`, and
+`deleteevent`.
+
+Once these commands are executed, there may be no built-in way to restore the previous state through an undo
+command. Users should therefore be careful when performing destructive or state-changing actions, especially
+when clearing participants or deleting events.
