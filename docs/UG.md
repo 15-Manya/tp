@@ -269,15 +269,11 @@ Outside an event:
 list
 ```
 
-![Command outside an event](images/list/eventcommand.png)
-
 Inside an event:
 
 ```
 list
 ```
-
-![Command inside an event](images/list/participantcommand.png)
 
 #### Successful Execution
 Outside an event: `Listed all events`
@@ -307,15 +303,11 @@ Outside an event:
 search Tech
 ```
 
-![Command outside an event](images/search/eventcommand.png)
-
 Inside an event:
 
 ```
 search [KEYWORD]...
 ```
-
-![Command inside an event](images/search/participantcommand.png)
 
 #### Successful Execution
 Outside an event: matching events are shown in the event list.
@@ -346,8 +338,6 @@ Used to switch the application theme.
 ```
 switchtheme light
 ```
-
-![Command](images/switchmode/command.png)
 
 #### Successful Execution
 `Switched to light mode.`
@@ -411,8 +401,6 @@ Edit multiple fields:
 editevent 1 n/Hack Night d/2026-08-20 l/NUS COM1 desc/Bring your laptop
 ```
 
-![Command](images/edit-event/command.png)
-
 Edit only the location:
 
 ```
@@ -449,8 +437,6 @@ Used to delete an event from the event list. The participant list stored under t
 ```
 deleteevent 1
 ```
-
-![Command](images/delete-event/command.png)
 
 #### Successful Execution
 
