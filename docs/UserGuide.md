@@ -43,7 +43,7 @@ your event management tasks done faster than traditional GUI apps.
   - `checkin 1` : Marks the 1st applicant in the current list as checked in.
   - `assign 2 team/Alpha` : Assigns the 2nd applicant to team Alpha.
   - `delete 3` : Deletes the 3rd applicant shown in the current list.
-  - `switchmode light` : Switches the app to light mode.
+  - `switchtheme light` : Switches the app to light mode.
   - `leave` : Returns to the event list.
   - `exit` : Exits the app.
 6. Refer to the [Features](#features) below for details of each command.
@@ -80,11 +80,11 @@ Shows a message explaining how to access the help page.
 
 Format: `help`
 
-### Switching theme mode : `switchmode`
+### Switching theme mode : `switchtheme`
 
 Switches the application between dark mode and light mode.
 
-Format: `switchmode THEME`
+Format: `switchtheme THEME`
 
 - `THEME` must be either `dark` or `light`.
 - This command can be used in both the event list view and the participant list view.
@@ -93,8 +93,8 @@ Format: `switchmode THEME`
 
 Examples:
 
-- `switchmode dark`
-- `switchmode light`
+- `switchtheme dark`
+- `switchtheme light`
 
 ### Adding an event : `addevent`
 
@@ -430,7 +430,7 @@ Furthermore, certain edits can cause TeamEventPro to behave in unexpected ways (
 | **Import**  | `import FILE_PATH` or `import list` e.g., `import data/participants.csv`, `import list`                                                                                                   |
 | **List**    | `list`                                                                                                                                                                                    |
 | **Search**  | `search KEYWORD [MORE_KEYWORDS]` e.g., `search tech meetup`                                                                                                                               |
-| **SwitchMode** | `switchmode THEME` e.g., `switchmode light`                                                                                                                                           |
+| **SwitchTheme** | `switchtheme THEME` e.g., `switchtheme light`                                                                                                                                        |
 | **Export**  | `export [FILE_PATH]` e.g., `export`, `export data/exports/hacknight.csv`                                                                                                                  |                                                                                                                               |
 | **Help**    | `help`                                                                                                                                                                                    |
 | **Exit**    | `exit`                                                                                                                                                                                    |

@@ -15,7 +15,7 @@ pageNav: 0
   - [Help : `help`](#1-help-command)
   - [List : `list`](#2-list-command)
   - [Search : `search`](#3-search-command)
-  - [Switch Mode : `switchmode`](#4-switch-mode-command)
+  - [Switch Theme : `switchtheme`](#4-switch-theme-command)
 - [Event Commands](#event-commands)
   - [Add Event : `addevent`](#cmd-addevent)
   - [Edit Event : `editevent`](#cmd-editevent)
@@ -94,7 +94,7 @@ The following commands can be used regardless of whether you are inside or outsi
 - `help`
 - `list`
 - `search`
-- `switchmode`
+- `switchtheme`
 
 Full details for these commands are in [Common Commands](#common-commands).
 
@@ -332,16 +332,16 @@ Inside an event: matching participants are shown in the participant list.
 
 ---
 
-## 4. Switch Mode Command
+## 4. Switch Theme Command
 
 Used to switch the application theme.
 
 #### Format
-`switchmode [dark|light]`
+`switchtheme [dark|light]`
 
 #### Example Usage
 ```
-switchmode light
+switchtheme light
 ```
 
 ![Command](images/switchmode/command.png)
