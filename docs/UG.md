@@ -812,6 +812,12 @@ statistics
 
 Used to import participants from a CSV file into the current event.
 
+Before using `import`, ensure your CSV has the expected header format:
+
+- Required header columns: `name,phone,email,address`
+- Optional header columns: `team,github,rsvpStatus,tags,checkinStatus`
+- If optional columns are included, append them after the required columns in the order shown above.
+
 #### Format
 `import [FILE_PATH]`
 `import list`
@@ -838,7 +844,6 @@ Participants from the CSV file are imported into the current event. Invalid rows
 - Can only be used inside an event.
 - Only `.csv` files are supported.
 - `import list` shows discoverable CSV files.
-- Required CSV headers are `name`, `phone`, `email`, and `address`.
 
 ### 4.2 Export Command
 <a id="cmd-export"></a>

@@ -211,13 +211,17 @@ Examples:
 
 Imports applicants from a CSV file into the currently entered event.
 
+Before using `import`, prepare your CSV with the exact expected structure:
+
+- Required header columns: `name,phone,email,address`
+- Optional header columns: `team,github,rsvpStatus,tags,checkinStatus`
+- If optional columns are included, append them after the required columns in the order shown above.
+
 Format: `import FILE_PATH` or `import list`
 
 - You must enter an event first using `enter event INDEX`.
 - The file path must point to a `.csv` file.
 - Use `import list` (or `import` with no path) to list discoverable `.csv` files and their directories.
-- Required CSV headers: `name,phone,email,address`.
-- Optional CSV headers: `team,github,rsvpStatus,tags,checkinStatus`.
 - Duplicate applicants are skipped.
 - Invalid rows are skipped and reported in the command result.
 - CSV field validation uses the same rules as applicant commands where applicable:
