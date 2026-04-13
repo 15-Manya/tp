@@ -203,7 +203,7 @@ A prefix ends with `/` and starts a value; the value ends at the next prefix (af
 | `p/` | Phone | Phone Number of the participant | Digits only, ≥3, e.g. `p/98765432` | Letters, `+`, spaces |
 | `e/` | Email | Email address of the participant | `local@domain`, ≤**64** chars | Bad format, too long |
 | `a/` | Address | Address of the participant | Text, ≤**100** chars, not blank/space-only | Too long, whitespace-only |
-| `team/` | Team | Team when using **`assign`** or **`filter`** (different keyword from `tm/`). | Same rules as `tm/`, e.g. `team/Alpha7` | Wrong prefix (`tm/`), invalid name |
+| `team/` | Team | Team assigned to the participant | Alphanumeric team name, 1-15 chars, e.g. `team/Alpha7` | Spaces/symbols/too-long text, e.g. team/Alpha Team, team/Alpha-1 |
 | `g/` | GitHub username | Optional link to the participant's GitHub. | e.g. `g/johndoe`, `g/john-doe` | Spaces, bad hyphens |
 | `r/` | RSVP status | To allow the organisers get an idea of who intend to attend. | `yes`, `no`, `pending` | e.g. `r/maybe` |
 | `t/` | Tag | Extra labels (skills, etc.); repeat `t/` for more. | Alphanumeric, e.g. `t/python t/ml` | Spaces/symbols in tag |
