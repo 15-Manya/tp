@@ -294,7 +294,7 @@ Inside an event: `Listed all participants`
 Used to search for matching events or participants depending on the current mode.
 
 #### Format
-`search [KEYWORD]...`
+`search KEYWORD [MORE_KEYWORDS]`
 
 #### Example Usage
 Outside an event:
@@ -306,7 +306,7 @@ search Tech
 Inside an event:
 
 ```
-search [KEYWORD]...
+search John Doe
 ```
 
 #### Successful Execution
@@ -332,7 +332,7 @@ Inside an event: matching participants are shown in the participant list.
 Used to switch the application theme.
 
 #### Format
-`switchtheme [dark|light]`
+`switchtheme THEME`
 
 #### Example Usage
 ```
@@ -392,7 +392,7 @@ addevent n/Tech Meetup 2026 d/2026-06-15 l/NUS Techno Edge desc/Annual tech netw
 Used to edit one or more selected details of an existing event in the event list.
 
 #### Format
-`editevent [INDEX] [n/EVENT NAME] [d/DATE] [l/LOCATION] [desc/DESCRIPTION]`
+`editevent INDEX [n/EVENT NAME] [d/DATE] [l/LOCATION] [desc/DESCRIPTION]`
 
 #### Example Usage
 Edit multiple fields:
@@ -431,7 +431,7 @@ editevent 1 desc/Updated event description
 Used to delete an event from the event list. The participant list stored under that event is deleted together with it.
 
 #### Format
-`deleteevent [INDEX]`
+`deleteevent INDEX`
 
 #### Example Usage
 ```
@@ -906,4 +906,3 @@ leave event
 #### Notes
 - Can only be used inside an event.
 - Ensure that there is no space after `event`.
-
